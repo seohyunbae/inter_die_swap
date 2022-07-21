@@ -1,0 +1,5 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/cjeon7/snucad/SNUCAD_ICCAD_2022_B/fm/src'
+g++ -O3 -I /usr/include/eigen3 -fopenmp ./DB/*.cpp ./FM/*.cpp ./GP/*.cpp ./main.cpp -o main
+make: Leaving directory `/Users/cjeon7/snucad/SNUCAD_ICCAD_2022_B/fm/src'
+ 
