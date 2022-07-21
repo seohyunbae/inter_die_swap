@@ -14,7 +14,7 @@ class Bin{
         double coord_x;
         double coord_y;
 
-        bool top;
+        int die_num; //0: top, 1:bot
 
         int inst_num;
         double sum_inst_area;
@@ -40,20 +40,23 @@ class AllBin{
         double die_size_y;
         double bin_size_x;
         double bin_size_y;
-        double target_util;
+        double target_util[2]; //0:top, 1:bot
         int bin_num;
 
-        double ovf_avg[2]; //overflow average
+        double ovf_sum[2]; //sum of overflow
+        double ovf_avg[2]; //overflow average, 0:top, 1:bot
 
         AllBin(int x_num, int y_num, dataBase_ptr db);
         ~AllBin();
-        void cal_overflow();
 };
 
 //처음으로 bin 내부의 instance를 따지는 부분
 //true면 top die에서 시작, false면 bot die에서 시작
 bool first_count_inst(instance_ptr inst, AllBin& allbin, dataBase_ptr db);
-//이후 update될 때마다 bin과 instance update하는 부분
+//util, overflow 계산 및 제대로 bin에 반영되어 있는지 test (가장 처음)
+void first_cal_overflow(AllBin& allbin, dataBase_ptr db);
+
+//이후 instance가 움직일 때마다 bin과 instance update하는 부분
 void inst_bin_update(instance_ptr inst, AllBin& allbin, dataBase_ptr db);
 
 }
