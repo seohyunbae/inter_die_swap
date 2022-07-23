@@ -143,4 +143,9 @@ struct BBOX{
     struct POS pmax;
 }; typedef struct BBOX* bbox_ptr;
 
+//for bin based fm
+namespace FM_Die{
+    class Bin;
+}
+
 // typedef double prec;

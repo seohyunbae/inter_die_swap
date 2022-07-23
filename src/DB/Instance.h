@@ -40,6 +40,11 @@ struct Instance{
     cellSpec_ptr curTech;
     struct Instance* next;
 
+    //for bin based partition
+    int bin_index;
+    std::list<struct Instance*>::iterator bin_inst_itr;
+    std::list<FM_Die::Bin*>::iterator bin_bucket_itr;
+
     //for die partition
     bool update;
     int gain;
