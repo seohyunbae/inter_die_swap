@@ -13,6 +13,7 @@ class Bin{
         double size_y;
         double coord_x;
         double coord_y;
+        double bin_area;
 
         int die_num; //0: top, 1:bot
 
@@ -21,10 +22,8 @@ class Bin{
         double cur_util;
         double overflow; //%단위
         std::list<instance_ptr> inst_list;
-        
-        double bin_area;
 
-        Bin(){};
+        Bin(): sum_inst_area(0), die_num(0), inst_num(0) {};
         Bin(Bin* bin); //top bin복사해서 bot bin 만들어줌
 };
 
@@ -54,7 +53,7 @@ class AllBin{
 
 //처음으로 bin 내부의 instance를 따지는 부분
 //true면 top die에서 시작, false면 bot die에서 시작
-bool first_count_inst(instance_ptr inst, AllBin& allbin, dataBase_ptr db);
+void first_count_inst(instance_ptr inst, AllBin& allbin, dataBase_ptr db);
 //util, overflow 계산 및 제대로 bin에 반영되어 있는지 test (가장 처음)
 void first_cal_overflow(AllBin& allbin, dataBase_ptr db);
 //
