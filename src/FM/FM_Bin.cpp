@@ -37,8 +37,8 @@ AllBin::AllBin(int x_num, int y_num, dataBase_ptr db){
     int index = 0;
     for(int y=0; y<y_num; ++y){
         for(int x=0; x<x_num; ++x){
-            Bin* bin = new Bin();
-            top_bin_vec.push_back(bin);
+            top_bin_vec.push_back(new Bin());
+            Bin* bin = top_bin_vec[index];
             if(x<x_num-1){
                 bin->coord_x = bin_coord_x;
                 bin->coord_y = bin_coord_y;
@@ -140,12 +140,12 @@ void first_cal_overflow(AllBin& allbin, dataBase_ptr db){
     int total_bot_inst = 0;
     allbin.ovf_sum[0] = 0;
     allbin.ovf_sum[1] = 0;
-    double total_top_area = 0;
-    double total_bot_area = 0;
+    unsigned int total_top_area = 0;
+    unsigned int total_bot_area = 0;
 
     for(int i=0; i<allbin.top_bin_vec.size(); ++i){
         Bin* bin = allbin.top_bin_vec[i];
-        bin->cur_util = bin->sum_inst_area/bin->bin_area;
+        bin->cur_util = (double)bin->sum_inst_area/bin->bin_area;
 
         //cout<<"cur_util: "<<bin->cur_util<<", sum_inst_area: "<<bin->sum_inst_area<<", bin_area: "<<bin->bin_area<<endl;
 
@@ -167,7 +167,7 @@ void first_cal_overflow(AllBin& allbin, dataBase_ptr db){
     }
     for(int i=0; i<allbin.bot_bin_vec.size(); ++i){
         Bin* bin = allbin.bot_bin_vec[i];
-        bin->cur_util = bin->sum_inst_area/bin->bin_area;
+        bin->cur_util = (double)bin->sum_inst_area/bin->bin_area;
         total_bot_inst += bin->inst_num;
         total_bot_area += bin->sum_inst_area;
         
@@ -267,7 +267,7 @@ void before_inst_bin_update(instance_ptr inst, AllBin& allbin, dataBase_ptr db){
 
     //cout<<"bf ist b ud 4-2"<<endl;
 
-    bin->cur_util = bin->sum_inst_area/bin->bin_area;
+    bin->cur_util = (double)bin->sum_inst_area/bin->bin_area;
      
     allbin.ovf_sum[bin->die_num] -= bin->overflow;
 
@@ -300,7 +300,7 @@ void after_inst_bin_update(instance_ptr inst, AllBin& allbin, dataBase_ptr db){
     bin->sum_inst_area += inst->area;
     bin->inst_list.push_front(inst);
     inst->bin_inst_itr = bin->inst_list.begin();
-    bin->cur_util = bin->sum_inst_area/bin->bin_area;
+    bin->cur_util = (double)bin->sum_inst_area/bin->bin_area;
 
     allbin.ovf_sum[bin->die_num] -= bin->overflow;
 
@@ -699,7 +699,7 @@ void bin_mv_and_up(instance_ptr inst, AllBin& allbin, dataBase_ptr db, GainBucke
 
     //cout<<"bf ist b ud 4-2"<<endl;
 
-    bin->cur_util = bin->sum_inst_area/bin->bin_area;
+    bin->cur_util = (double)bin->sum_inst_area/bin->bin_area;
      
     allbin.ovf_sum[bin->die_num] -= bin->overflow;
 
@@ -734,7 +734,7 @@ void bin_mv_and_up(instance_ptr inst, AllBin& allbin, dataBase_ptr db, GainBucke
     bin->sum_inst_area += inst->area;
     bin->inst_list.push_front(inst);
     inst->bin_inst_itr = bin->inst_list.begin();
-    bin->cur_util = bin->sum_inst_area/bin->bin_area;
+    bin->cur_util = (double)bin->sum_inst_area/bin->bin_area;
 
     allbin.ovf_sum[bin->die_num] -= bin->overflow;
 
@@ -795,7 +795,7 @@ bool bin_basecell(instance_ptr inst, dataBase_ptr db, AllBin& allbin, double bas
     if((opp_die->curArea + oppArea) > opp_die->targetArea) die_util = false;
     else die_util = true;
 
-    double expected_ovf = (to_bin->sum_inst_area + (double)oppArea) / to_bin->bin_area;
+    double expected_ovf = ((double)to_bin->sum_inst_area + (double)oppArea) / to_bin->bin_area;
     double exp_ovf_avg = (allbin.ovf_sum[to_dieNum] - to_bin->overflow + expected_ovf*(double)100)/(double)allbin.bin_num;
     //cout<<"expected overflow everage: "<<exp_ovf_avg<<endl;
 

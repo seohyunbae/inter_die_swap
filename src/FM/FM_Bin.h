@@ -18,7 +18,7 @@ class Bin{
         int die_num; //0: top, 1:bot
 
         int inst_num;
-        double sum_inst_area;
+        unsigned int sum_inst_area;
         double cur_util;
         double overflow; //%단위
         std::list<instance_ptr> inst_list;
