@@ -410,7 +410,9 @@ void ovf_inst_net_update(instance_ptr inst, AllBin& ab, dataBase_ptr db, GainBuc
 */
 
 double oppArea(instance_ptr inst, dataBase_ptr db, AllBin& ab){
-    int oppArea;
+    if(!inst) return 0;
+    
+    int opp_area;
     die_ptr opp_die;
     Bin* bin = ab.bin_vec[inst->bin_index];
     int to_dieNum;
@@ -426,13 +428,13 @@ double oppArea(instance_ptr inst, dataBase_ptr db, AllBin& ab){
     cellSpec_ptr tech = inst->masterCell->cellSpec_head;
     while(tech){
         if(!strcmp(tech->techName, opp_die->techName)){
-            oppArea = (tech->sizeX)*(tech->sizeY);
+            opp_area = (tech->sizeX)*(tech->sizeY);
             break;
         }
         tech = tech->next;
     }
 
-    return (double)oppArea;
+    return (double)opp_area;
 }
 
 void ovf_mv_and_up(instance_ptr inst, AllBin& ab, dataBase_ptr db, GainBucket& gb){
@@ -468,6 +470,7 @@ instance_ptr overflow_basecell(AllBin& ab, dataBase_ptr db, Bin* bin){
     }
 
     list<instance_ptr>::iterator itr;
+    if(bin->inst_list[bin->large_die].empty()) return nullptr;
     itr = bin->inst_list[bin->large_die].begin();
     while((oppArea(*itr, db, ab) >= area_diff) || ((*itr)->fixed)){
         ++itr;
