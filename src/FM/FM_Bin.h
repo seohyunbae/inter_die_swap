@@ -31,6 +31,7 @@ class Bin{
             bin_bucket_key = 0;
         };//top bin
         Bin(Bin* bin, double coord_x, double coord_y); //bot bin
+        //~Bin();
 };
 
 class AllBin{
