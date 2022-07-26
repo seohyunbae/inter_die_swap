@@ -16,7 +16,7 @@ void dummy_gp(dataBase_ptr db){
         instance_ptr inst = db->instanceDB->inst_array[i];
         inst->center.x = x_length * dis(gen);
         inst->center.y = y_length * dis(gen);
-        place_instance_in_die(db, 0, inst);
+        place_instance_in_die(db, 1, inst);
     }
 
 }
@@ -28,7 +28,7 @@ int main(int argc, char** argv){
 
     chrono::system_clock::time_point start = chrono::system_clock::now();
 
-    FM_Die::bin_FM(db, 30, 30, atoi(argv[2]));
+    FM_Die::bin_FM(db, atoi(argv[2]), atoi(argv[3]), atoi(argv[4]));
 
     chrono::system_clock::time_point end = chrono::system_clock::now();
     chrono::milliseconds time = chrono::duration_cast<chrono::milliseconds>(end-start);
