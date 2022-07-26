@@ -410,7 +410,10 @@ void ovf_inst_net_update(instance_ptr inst, AllBin& ab, dataBase_ptr db, GainBuc
 */
 
 double oppArea(instance_ptr inst, dataBase_ptr db, AllBin& ab){
-    if(!inst) return 0;
+    if(inst == nullptr){
+        cout<<"error: oppArea, nullptr"<<endl;
+        exit(0);
+    }
     
     int opp_area;
     die_ptr opp_die;
@@ -438,7 +441,7 @@ double oppArea(instance_ptr inst, dataBase_ptr db, AllBin& ab){
 }
 
 void ovf_mv_and_up(instance_ptr inst, AllBin& ab, dataBase_ptr db, GainBucket& gb){
-    if(!inst){
+    if(inst==nullptr){
         cout<<"error: instance pointer is nullptr"<<endl;
         exit(0);
     }
@@ -489,6 +492,7 @@ instance_ptr overflow_basecell(AllBin& ab, dataBase_ptr db, Bin* bin){
 void overflow_fm(AllBin& ab, dataBase_ptr db, GainBucket& gb, double base_overflow){
     map<int, list<Bin*>*>::iterator itr;
     list<Bin*>::iterator b_itr;
+    instance_ptr inst;
     int count = 0;
     while(!overflow_condition(ab, base_overflow)){
         ++count;
@@ -505,13 +509,15 @@ void overflow_fm(AllBin& ab, dataBase_ptr db, GainBucket& gb, double base_overfl
             if(!itr->second->empty()){
                 b_itr = itr->second->begin();
                 bool basecell = false;
-                instance_ptr inst = overflow_basecell(ab, db, *b_itr);
+                inst = overflow_basecell(ab, db, *b_itr);
                 if(inst) basecell = true;
                 while(!basecell){
                     ++b_itr;
                     if(b_itr == itr->second->end()) break;
-                    inst = overflow_basecell(ab, db, *b_itr);
-                    if(inst) basecell = true;
+                    else{
+                        inst = overflow_basecell(ab, db, *b_itr);
+                        if(inst) basecell = true;
+                    }
                 }
                 if(b_itr == itr->second->end()){
                     if(itr == ab.bin_bucket.begin()){
@@ -522,12 +528,25 @@ void overflow_fm(AllBin& ab, dataBase_ptr db, GainBucket& gb, double base_overfl
                 }
                 else if(basecell){
                     ovf_mv_and_up(inst, ab, db, gb);
+                    if(inst == nullptr) cout<<"inst = nullptr"<<endl;
                     cout<<(*b_itr)->bin_bucket_key<<"-"<<inst->instanceName<<": "<<ab.overflow_avg[0]<<"/"<<ab.overflow_avg[1]<<endl;
                     for_select_base = false;
                 }
                 else --itr;
             }
             else --itr;
+        }
+        if(itr == ab.bin_bucket.begin()){
+            if(itr->second->empty()){
+                cout<<"error: larger base overflow needed"<<endl;
+                exit(0);
+            }
+            else if(itr->second->end() == b_itr){
+                if(inst == nullptr){
+                    cout<<"error: larger base overflow needed"<<endl;
+                    exit(0);
+                }
+            }
         }
     }
     bin_for_best_reset(db, gb, ab);
