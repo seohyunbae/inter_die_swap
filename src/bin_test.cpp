@@ -7,7 +7,7 @@ void dummy_gp(dataBase_ptr db){
     random_device rd;
     mt19937 gen(rd());
 
-    uniform_real_distribution<> dis(0.0, 1.0);
+    uniform_real_distribution<double> dis(0.0, 1.0);
 
     double x_length = (double)db->dieDB->upperRightX - (double)db->dieDB->lowerLeftX;
     double y_length = (double)db->dieDB->upperRightY - (double)db->dieDB->lowerLeftY;

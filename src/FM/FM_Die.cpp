@@ -52,7 +52,7 @@ void init_db_parameter(dataBase_ptr db, GainBucket& gb){
         inst->bestDie = 0; //top
 
         //make whole instance move to top die
-        place_instance_in_die(db, 1, inst);
+        if(inst->dieNum != 0 && inst->dieNum != 1) place_instance_in_die(db, 1, inst);
     }
 
     //update net
