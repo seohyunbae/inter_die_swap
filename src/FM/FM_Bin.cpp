@@ -246,11 +246,15 @@ void update_bin_bucket(instance_ptr inst, AllBin& ab, dataBase_ptr db){
     }
     ab.bin_bucket[bin->bin_bucket_key]->push_front(bin);
     list<instance_ptr>::iterator itr;
-    for(itr=bin->inst_list[bin->large_die].begin(); itr!=bin->inst_list[bin->large_die].end(); ++itr){
-        (*itr)->bin_bucket_itr = ab.bin_bucket[bin->bin_bucket_key]->begin();
+    if(!bin->inst_list[bin->large_die].empty()){
+        for(itr=bin->inst_list[bin->large_die].begin(); itr!=bin->inst_list[bin->large_die].end(); ++itr){
+            (*itr)->bin_bucket_itr = ab.bin_bucket[bin->bin_bucket_key]->begin();
+        }
     }
-    for(itr=bin->inst_list[!bin->large_die].begin(); itr!=bin->inst_list[!bin->large_die].end(); ++itr){
-        (*itr)->bin_bucket_itr = ab.bin_bucket[bin->bin_bucket_key]->begin();
+    if(!bin->inst_list[!bin->large_die].empty()){
+        for(itr=bin->inst_list[!bin->large_die].begin(); itr!=bin->inst_list[!bin->large_die].end(); ++itr){
+            (*itr)->bin_bucket_itr = ab.bin_bucket[bin->bin_bucket_key]->begin();
+        }
     }
     //반대편 die도 update해야하나?
 }
@@ -282,11 +286,15 @@ void make_bin_bucket(AllBin& ab, dataBase_ptr db){
         }
         ab.bin_bucket[bin->bin_bucket_key]->push_front(bin);
         list<instance_ptr>::iterator itr;
-        for(itr=bin->inst_list[bin->large_die].begin(); itr!=bin->inst_list[bin->large_die].end(); ++itr){
-            (*itr)->bin_bucket_itr = ab.bin_bucket[bin->bin_bucket_key]->begin();
+        if(!bin->inst_list[bin->large_die].empty()){
+            for(itr=bin->inst_list[bin->large_die].begin(); itr!=bin->inst_list[bin->large_die].end(); ++itr){
+                (*itr)->bin_bucket_itr = ab.bin_bucket[bin->bin_bucket_key]->begin();
+            }
         }
-        for(itr=bin->inst_list[!bin->large_die].begin(); itr!=bin->inst_list[!bin->large_die].end(); ++itr){
-            (*itr)->bin_bucket_itr = ab.bin_bucket[bin->bin_bucket_key]->begin();
+        if(!bin->inst_list[!bin->large_die].empty()){
+            for(itr=bin->inst_list[!bin->large_die].begin(); itr!=bin->inst_list[!bin->large_die].end(); ++itr){
+                (*itr)->bin_bucket_itr = ab.bin_bucket[bin->bin_bucket_key]->begin();
+            }
         }
     }
 }
