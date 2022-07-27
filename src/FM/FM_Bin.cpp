@@ -228,6 +228,10 @@ void update_bin_bucket(instance_ptr inst, AllBin& ab, dataBase_ptr db){
         cout<<"error: bin bucket has no key"<<endl;
         exit(0);
     }
+    if(*inst->bin_bucket_itr == nullptr){
+        cout<<"error: bin_bucket_itr nullptr"<<endl;
+        exit(0);
+    }
     ab.bin_bucket[bin->bin_bucket_key]->erase(inst->bin_bucket_itr);
     
     //push
