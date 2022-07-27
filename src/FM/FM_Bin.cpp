@@ -232,9 +232,9 @@ void update_bin_bucket(instance_ptr inst, AllBin& ab, dataBase_ptr db){
         cout<<"error: bin_bucket_itr nullptr"<<endl;
         exit(0);
     }
-    cout<<"update point 1"<<endl;
+    //cout<<"update point 1"<<endl;
     ab.bin_bucket[bin->bin_bucket_key]->erase(inst->bin_bucket_itr);
-    cout<<"update point 2"<<endl;
+    //cout<<"update point 2"<<endl;
     //push
     double diff = bin->overflow[0] - bin->overflow[1];
     if(diff > 0){
@@ -245,25 +245,25 @@ void update_bin_bucket(instance_ptr inst, AllBin& ab, dataBase_ptr db){
         diff = -diff;
     }
     bin->bin_bucket_key = (int)floor(diff);
-    cout<<"update point 3"<<endl;
+    //cout<<"update point 3"<<endl;
     if(ab.bin_bucket.end()==ab.bin_bucket.find(bin->bin_bucket_key)){
         ab.bin_bucket[bin->bin_bucket_key] = new list<Bin*>;
     }
     ab.bin_bucket[bin->bin_bucket_key]->push_front(bin);
-    cout<<"update point 4"<<endl;
+    //cout<<"update point 4"<<endl;
     list<instance_ptr>::iterator itr;
     if(!bin->inst_list[bin->large_die].empty()){
         for(itr=bin->inst_list[bin->large_die].begin(); itr!=bin->inst_list[bin->large_die].end(); ++itr){
             (*itr)->bin_bucket_itr = ab.bin_bucket[bin->bin_bucket_key]->begin();
         }
     }
-    cout<<"update point 5"<<endl;
+    //cout<<"update point 5"<<endl;
     if(!bin->inst_list[!bin->large_die].empty()){
         for(itr=bin->inst_list[!bin->large_die].begin(); itr!=bin->inst_list[!bin->large_die].end(); ++itr){
             (*itr)->bin_bucket_itr = ab.bin_bucket[bin->bin_bucket_key]->begin();
         }
     }
-    cout<<"update point 6"<<endl;
+    //cout<<"update point 6"<<endl;
     //반대편 die도 update해야하나?
 }
 
@@ -514,36 +514,36 @@ void overflow_fm(AllBin& ab, dataBase_ptr db, GainBucket& gb, double base_overfl
         ++count;
         bool for_select_base = true;
         itr = ab.bin_bucket.end();
-        cout<<"point 1"<<endl;
+        //cout<<"point 1"<<endl;
         --itr;
         while(for_select_base){
             if(itr == ab.bin_bucket.begin()){
-                cout<<"point 2"<<endl;
+                //cout<<"point 2"<<endl;
                 if(itr->second->empty()){
-                    cout<<"point 3"<<endl;
+                    //cout<<"point 3"<<endl;
                     for_select_base = false;
                     break;
                 }
             }
             if(!itr->second->empty()){
-                cout<<"point 4"<<endl;
+                //cout<<"point 4"<<endl;
                 b_itr = itr->second->begin();
                 bool basecell = false;
                 inst = overflow_basecell(ab, db, *b_itr);
                 if(inst) basecell = true;
-                cout<<"point 5"<<endl;
+                //cout<<"point 5"<<endl;
                 while(!basecell){
                     ++b_itr;
-                    cout<<"point 6"<<endl;
+                    //cout<<"point 6"<<endl;
                     if(b_itr == itr->second->end()) break;
                     else{
                         inst = overflow_basecell(ab, db, *b_itr);
                         if(inst) basecell = true;
                     }
-                    cout<<"point 7"<<endl;
+                    //cout<<"point 7"<<endl;
                 }
                 if(b_itr == itr->second->end()){
-                    cout<<"point 8"<<endl;
+                    //cout<<"point 8"<<endl;
                     if(itr == ab.bin_bucket.begin()){
                         for_select_base = false;
                         break;
@@ -551,12 +551,12 @@ void overflow_fm(AllBin& ab, dataBase_ptr db, GainBucket& gb, double base_overfl
                     else --itr;
                 }
                 else if(basecell){
-                    cout<<"point 9"<<endl;
+                    //cout<<"point 9"<<endl;
                     ovf_mv_and_up(inst, ab, db, gb);
                     if(inst == nullptr) cout<<"inst = nullptr"<<endl;
-                    cout<<(*b_itr)->bin_bucket_key<<"-"<<inst->instanceName<<": "<<ab.overflow_avg[0]<<"/"<<ab.overflow_avg[1]<<endl;
+                    cout<<inst->instanceName<<": "<<ab.overflow_avg[0]<<"/"<<ab.overflow_avg[1]<<endl;
                     for_select_base = false;
-                    cout<<"point 10"<<endl;
+                    //cout<<"point 10"<<endl;
                 }
                 else --itr;
             }
@@ -575,9 +575,9 @@ void overflow_fm(AllBin& ab, dataBase_ptr db, GainBucket& gb, double base_overfl
             }
         }
     }
-    cout<<"point 11"<<endl;
+    //cout<<"point 11"<<endl;
     bin_for_best_reset(db, gb, ab);
-    cout<<"point 12"<<endl;
+    //cout<<"point 12"<<endl;
 
     if(db->dieDB->top_die->curArea > db->dieDB->top_die->targetArea){
         cout<<"error: top die overflow"<<endl;
