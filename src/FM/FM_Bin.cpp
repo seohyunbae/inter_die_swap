@@ -699,17 +699,17 @@ void bin_FM(dataBase_ptr db, int bin_num_x, int bin_num_y, double base_overflow)
     cout<<"=================Bin-based Die_Partition: start=================="<<'\n'<<'\n'<<endl;
     
     int die_num = db->instanceDB->inst_array[0]->dieNum;
-    cout<<die_num<<endl;
-    cout<<"------------------Die Partition State-----------------------"<<endl;
-    cout<<"instance: "<<db->instanceDB->numInsts<<", net: "<<db->netDB->numNets<<endl;
-    //cout<<"min cut: "<<gb.min_cut_num<<", current cut: "<<gb.cut_net_num<<endl;
-    cout<<"die area: "<<db->dieDB->top_die->dieArea<<endl;
-    cout<<"inst num: ("<<db->dieDB->top_die->numInsts<<", "<<db->dieDB->bot_die->numInsts<<")"<<endl;
-    cout<<"current area/target area: top-("<<db->dieDB->top_die->curArea<<"/"<<db->dieDB->top_die->targetArea;
-    cout<<"), bot-("<<db->dieDB->bot_die->curArea<<"/"<<db->dieDB->bot_die->targetArea<<")"<<endl;
-    cout<<"current util/target util: top-("<<db->dieDB->top_die->curUtil<<"/"<<(double)db->dieDB->top_die->targetUtil/(double)100;
-    cout<<"), bot-("<<db->dieDB->bot_die->curUtil<<"/"<<(double)db->dieDB->bot_die->targetUtil/(double)100<<")"<<endl;
-    cout<<"------------------------------------------------------------"<<endl;
+    //cout<<die_num<<endl;
+    //cout<<"------------------Die Partition State-----------------------"<<endl;
+    //cout<<"instance: "<<db->instanceDB->numInsts<<", net: "<<db->netDB->numNets<<endl;
+    ////cout<<"min cut: "<<gb.min_cut_num<<", current cut: "<<gb.cut_net_num<<endl;
+    //cout<<"die area: "<<db->dieDB->top_die->dieArea<<endl;
+    //cout<<"inst num: ("<<db->dieDB->top_die->numInsts<<", "<<db->dieDB->bot_die->numInsts<<")"<<endl;
+    //cout<<"current area/target area: top-("<<db->dieDB->top_die->curArea<<"/"<<db->dieDB->top_die->targetArea;
+    //cout<<"), bot-("<<db->dieDB->bot_die->curArea<<"/"<<db->dieDB->bot_die->targetArea<<")"<<endl;
+    //cout<<"current util/target util: top-("<<db->dieDB->top_die->curUtil<<"/"<<(double)db->dieDB->top_die->targetUtil/(double)100;
+    //cout<<"), bot-("<<db->dieDB->bot_die->curUtil<<"/"<<(double)db->dieDB->bot_die->targetUtil/(double)100<<")"<<endl;
+    //cout<<"------------------------------------------------------------"<<endl;
 
 
     cout<<"Bin-based Die_Partition: make gain bucket start"<<endl;
