@@ -232,8 +232,9 @@ void update_bin_bucket(instance_ptr inst, AllBin& ab, dataBase_ptr db){
         cout<<"error: bin_bucket_itr nullptr"<<endl;
         exit(0);
     }
+    cout<<"update point 1"<<endl;
     ab.bin_bucket[bin->bin_bucket_key]->erase(inst->bin_bucket_itr);
-    
+    cout<<"update point 2"<<endl;
     //push
     double diff = bin->overflow[0] - bin->overflow[1];
     if(diff > 0){
@@ -244,22 +245,25 @@ void update_bin_bucket(instance_ptr inst, AllBin& ab, dataBase_ptr db){
         diff = -diff;
     }
     bin->bin_bucket_key = (int)floor(diff);
-
+    cout<<"update point 3"<<endl;
     if(ab.bin_bucket.end()==ab.bin_bucket.find(bin->bin_bucket_key)){
         ab.bin_bucket[bin->bin_bucket_key] = new list<Bin*>;
     }
     ab.bin_bucket[bin->bin_bucket_key]->push_front(bin);
+    cout<<"update point 4"<<endl;
     list<instance_ptr>::iterator itr;
     if(!bin->inst_list[bin->large_die].empty()){
         for(itr=bin->inst_list[bin->large_die].begin(); itr!=bin->inst_list[bin->large_die].end(); ++itr){
             (*itr)->bin_bucket_itr = ab.bin_bucket[bin->bin_bucket_key]->begin();
         }
     }
+    cout<<"update point 5"<<endl;
     if(!bin->inst_list[!bin->large_die].empty()){
         for(itr=bin->inst_list[!bin->large_die].begin(); itr!=bin->inst_list[!bin->large_die].end(); ++itr){
             (*itr)->bin_bucket_itr = ab.bin_bucket[bin->bin_bucket_key]->begin();
         }
     }
+    cout<<"update point 6"<<endl;
     //반대편 die도 update해야하나?
 }
 
