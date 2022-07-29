@@ -111,7 +111,7 @@ bool for_best_reset(dataBase_ptr db, GainBucket& gb, bool fifo_init, bool fifo_u
     }
 }
 
-void move_and_update(instance_ptr inst, dataBase_ptr db, GainBucket& gb, bool init, bool fifo_init, bool fifo_update, bool debug){
+void move_and_update(instance_ptr inst, dataBase_ptr db, GainBucket& gb, int init, bool fifo_init, bool fifo_update, bool debug){
     if(inst->fixed) return;
 
     inst->fixed = true;
@@ -275,15 +275,18 @@ void move_and_update(instance_ptr inst, dataBase_ptr db, GainBucket& gb, bool in
 
     swap_instance_to_other_die(db, inst);
 
-    if(init){
+    if(init == 1){
         gb.min_cut_num = gb.cut_net_num;
         inst->bestDie = inst->dieNum;
     }
-    else if(gb.min_cut_update()){
-        for(int i=0; i<db->instanceDB->numInsts; ++i){
-            db->instanceDB->inst_array[i]->bestDie = db->instanceDB->inst_array[i]->dieNum;
+    else if(init == 0){
+        if(gb.min_cut_update()){
+            for(int i=0; i<db->instanceDB->numInsts; ++i){
+                db->instanceDB->inst_array[i]->bestDie = db->instanceDB->inst_array[i]->dieNum;
+            }
         }
     }
+    else if(init ==2) gb.min_cut_num = gb.cut_net_num;
 
     i_net = inst->net_head;
     while(i_net){
@@ -419,7 +422,7 @@ void init_random(dataBase_ptr db, GainBucket& gb){
     //random하게 B로 내보내기
     while(!init_condition(db)){
         instance_ptr inst = db->instanceDB->inst_array[dis(gen)];
-        move_and_update(inst, db, gb, true, true, false, true);
+        move_and_update(inst, db, gb, 1, true, false, true);
     }
     for_best_reset(db, gb, true, false, true);
     if(!normal_path(db, gb)){
@@ -459,7 +462,7 @@ void init_partition(dataBase_ptr db, GainBucket& gb, bool fifo_init, bool fifo_u
                     else --itr;
                 }
                 else if(basecell(*l_itr, db)){
-                    move_and_update((*l_itr), db, gb, true, fifo_init, fifo_update, debug);
+                    move_and_update((*l_itr), db, gb, 1, fifo_init, fifo_update, debug);
                     for_select_base = false;
                 }
                 else --itr;
@@ -515,7 +518,7 @@ void bi_partition(dataBase_ptr db, GainBucket& gb, bool fifo_init, bool fifo_upd
                     }
                     else if(basecell(*l_itr, db)){
                         //cout<<gb<<endl;
-                        move_and_update(*l_itr, db, gb, false, fifo_init, fifo_update, debug);
+                        move_and_update(*l_itr, db, gb, 0, fifo_init, fifo_update, debug);
                         for_select_base = false;
                     }
                     else --itr;

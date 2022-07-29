@@ -31,7 +31,6 @@ class Bin{
             bin_bucket_key = 0;
         };//top bin
         Bin(Bin* bin, double coord_x, double coord_y); //bot bin
-        //~Bin();
 };
 
 class AllBin{
@@ -48,6 +47,7 @@ class AllBin{
 
         double overflow_sum[2];
         double overflow_avg[2];
+        double overflow_best;
 
         AllBin(){
             overflow_sum[0] = 0;
@@ -59,7 +59,6 @@ class AllBin{
 //make and update bin
 void init_bin(int x_num, int y_num, AllBin& ab, dataBase_ptr db);
 void get_inst_idx(instance_ptr inst, AllBin& ab, dataBase_ptr db);
-//void get_bin_idx(instance_ptr inst, AllBin& ab, dataBase_ptr db);
 void count_inst(instance_ptr inst, AllBin& ab, dataBase_ptr db);
 void cal_overflow(AllBin& ab, dataBase_ptr db);
 void before_update_bin(instance_ptr inst, AllBin& ab, dataBase_ptr db, GainBucket& gb);
@@ -67,7 +66,6 @@ void after_update_bin(instance_ptr inst, AllBin& ab, dataBase_ptr db, GainBucket
 void make_bin(int x_num, int y_num, AllBin& ab, dataBase_ptr db);
 
 //make and update bin bucket
-//void before_update_bucket(instance_ptr inst, AllBin& ab, dataBase_ptr db);
 void update_bin_bucket(instance_ptr inst, AllBin& ab, dataBase_ptr db);
 void make_bin_bucket(AllBin& ab, dataBase_ptr db);
 
@@ -77,13 +75,14 @@ void bin_init_db_parameter(dataBase_ptr db, GainBucket& gb, int die_num);
 void bin_init_partition(dataBase_ptr db, GainBucket& gb, int die_num);
 
 //overflow partition
-//void ovf_inst_net_update(instance_ptr inst, AllBin& ab, dataBase_ptr db, GainBucket& gb);
 double oppArea(instance_ptr inst, dataBase_ptr db, AllBin& ab);
-void ovf_mv_and_up(instance_ptr inst, AllBin& ab, dataBase_ptr db, GainBucket& gb);
+void ovf_mv_and_up(instance_ptr inst, AllBin& ab, dataBase_ptr db, GainBucket& gb, bool upgrade);
 bool overflow_condition(AllBin& ab, double base_overflow);
-//instance_ptr find_basecell(AllBin& ab, Bin* bin, double area_diff, dataBase_ptr db);
 instance_ptr overflow_basecell(AllBin& ab, dataBase_ptr db, Bin* bin);
 void overflow_fm(AllBin& ab, dataBase_ptr db, GainBucket& gb, double base_overflow);
+void op_overflow_fm(AllBin& ab, dataBase_ptr db, GainBucket& gb, double base_overflow);
+//bi-partition처럼 min을 찾는게 아니라, init처럼 하되, 한턴만 돌고, 그 돈 턴안에서 가장 좋은 걸 배출하는 방법으로 바꾸자.
+double fast_overflow_fm(AllBin& ab, dataBase_ptr db, GainBucket& gb, double base_overflow);
 
 //bi partition
 void bin_mv_and_up(instance_ptr inst, AllBin& ab, dataBase_ptr db, GainBucket& gb);
@@ -92,11 +91,7 @@ void bin_bi_partition(AllBin& ab, dataBase_ptr db, GainBucket& gb, double base_o
 
 //bin based partition
 void bin_for_best_die_move(instance_ptr inst, dataBase_ptr db, GainBucket& gb, AllBin& ab);
-bool bin_for_best_reset(dataBase_ptr db, GainBucket& gb, AllBin& ab);
+bool bin_for_best_reset(dataBase_ptr db, GainBucket& gb, AllBin& ab, bool upgrade);
 void bin_FM(dataBase_ptr db, int bin_num_x, int bin_num_y, double base_overflow);
-
-//debug
-void check_overflow_avg();
-
 }
 #endif

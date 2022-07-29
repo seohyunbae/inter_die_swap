@@ -28,7 +28,10 @@ int main(int argc, char** argv){
 
     chrono::system_clock::time_point start = chrono::system_clock::now();
 
-    FM_Die::bin_FM(db, atoi(argv[2]), atoi(argv[3]), atoi(argv[4]));
+    //FM_Die::bin_FM(db, atoi(argv[2]), atoi(argv[3]), atoi(argv[4]));
+    FM_Die::die_partition(db, false, true, false, true);
+
+    destroy_DataBase(db);
 
     chrono::system_clock::time_point end = chrono::system_clock::now();
     chrono::milliseconds time = chrono::duration_cast<chrono::milliseconds>(end-start);

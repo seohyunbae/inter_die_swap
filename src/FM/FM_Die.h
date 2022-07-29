@@ -36,7 +36,7 @@ bool for_best_reset(dataBase_ptr db, GainBucket& gb, bool fifo_init, bool fifo_u
 
 //in instance
 //move and update selected instance
-void move_and_update(instance_ptr inst, dataBase_ptr db, GainBucket& gb, bool init, bool fifo_init, bool fifo_update, bool debug);
+void move_and_update(instance_ptr inst, dataBase_ptr db, GainBucket& gb, int init, bool fifo_init, bool fifo_update, bool debug);
 //move instance for making best state for next iteration
 void for_best_die_move(instance_ptr inst, dataBase_ptr db, GainBucket& gb);
 //best_die_move 이후에 gain을 계산 해주는 함수
